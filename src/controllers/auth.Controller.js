@@ -134,7 +134,7 @@ const loginHandler = async (req, res) => {
       statusCode: statuscode.R_SUCCESS,
       message: 'User logged in successfully',
       data: {
-        accessToken,
+        accessToken: `Bearer ${accessToken}`,
         refreshToken,
       },
     });

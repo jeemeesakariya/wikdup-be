@@ -1,7 +1,8 @@
 const express = require('express');
 const { createAndUpdateUserHandler  , getAllUsersHandler, deleteUserHandler} = require('../controllers/user.controller');
 const { validater } = require("../common/helper");
-const {userValidationSchema} = require("../validation/user.Validation")
+const { userValidationSchema } = require("../validation/user.Validation")
+const {auth} =  require("../common/helper");
 
 const router = express.Router();
 
@@ -64,120 +65,120 @@ const router = express.Router();
  *                   items:
  *                     $ref: '#/components/schemas/User'
  */
-router.get('/', getAllUsersHandler);
+router.get('/',auth, getAllUsersHandler);
 
-/**
- * @swagger
- * /api/v1/user:
- *   post:
- *     summary: Create a new user
- *     tags: [User]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - full_name
- *               - mobile
- *               - email
- *               - password
- *               - role_id
- *             properties:
- *               full_name:
- *                 type: string
- *                 example: Jeemee Sakariya
- *               mobile:
- *                 type: string
- *                 example: "9876543219"
- *               email:
- *                 type: string
- *                 example: jeemeesakariya1@example.com
- *               password:
- *                 type: string
- *                 example: Test@1234
- *               role_id:
- *                 type: integer
- *                 example: 1
- *     responses:
- *       200:
- *         description: User created successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 statusCode:
- *                   type: integer
- *                   example: 200
- *                 message:
- *                   type: string
- *                   example: User created successfully
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: integer
- *                       example: 4
- *                     full_name:
- *                       type: string
- *                       example: Jeemee Sakariya
- *                     mobile:
- *                       type: string
- *                       example: "9876543217"
- *                     email:
- *                       type: string
- *                       example: jeemeesakariya2@example.com
- *                     password:
- *                       type: string
- *                       example: $2b$10$MbpWOpcjEjF.56HJXUcyQ.K/GBQjdAiFKxlHFfjr2clGxVwoLoOXe
- *                     role_id:
- *                       type: integer
- *                       example: 1
- *                     is_deleted:
- *                       type: boolean
- *                       example: false
- *                     created_at:
- *                       type: string
- *                       format: date-time
- *                       example: 2025-08-05T12:18:49.000Z
- *                     created_by:
- *                       type: string
- *                       nullable: true
- *                       example: null
- *                     updated_at:
- *                       type: string
- *                       format: date-time
- *                       example: 2025-08-05T12:18:49.000Z
- *                     updated_by:
- *                       type: string
- *                       nullable: true
- *                       example: null
- *       400:
- *         description: Bad Request - User already exists
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 statusCode:
- *                   type: integer
- *                   example: 400
- *                 message:
- *                   type: string
- *                   example: User already exists
- *                 data:
- *                   type: array
- *                   example: []
- */
-router.post('/',validater(userValidationSchema.createAndUpdateUser), createAndUpdateUserHandler);
+// /**
+//  * @swagger
+//  * /api/v1/user:
+//  *   post:
+//  *     summary: Create a new user
+//  *     tags: [User]
+//  *     requestBody:
+//  *       required: true
+//  *       content:
+//  *         application/json:
+//  *           schema:
+//  *             type: object
+//  *             required:
+//  *               - full_name
+//  *               - mobile
+//  *               - email
+//  *               - password
+//  *               - role_id
+//  *             properties:
+//  *               full_name:
+//  *                 type: string
+//  *                 example: Jeemee Sakariya
+//  *               mobile:
+//  *                 type: string
+//  *                 example: "9876543219"
+//  *               email:
+//  *                 type: string
+//  *                 example: jeemeesakariya1@example.com
+//  *               password:
+//  *                 type: string
+//  *                 example: Test@1234
+//  *               role_id:
+//  *                 type: integer
+//  *                 example: 1
+//  *     responses:
+//  *       200:
+//  *         description: User created successfully
+//  *         content:
+//  *           application/json:
+//  *             schema:
+//  *               type: object
+//  *               properties:
+//  *                 success:
+//  *                   type: boolean
+//  *                   example: true
+//  *                 statusCode:
+//  *                   type: integer
+//  *                   example: 200
+//  *                 message:
+//  *                   type: string
+//  *                   example: User created successfully
+//  *                 data:
+//  *                   type: object
+//  *                   properties:
+//  *                     id:
+//  *                       type: integer
+//  *                       example: 4
+//  *                     full_name:
+//  *                       type: string
+//  *                       example: Jeemee Sakariya
+//  *                     mobile:
+//  *                       type: string
+//  *                       example: "9876543217"
+//  *                     email:
+//  *                       type: string
+//  *                       example: jeemeesakariya2@example.com
+//  *                     password:
+//  *                       type: string
+//  *                       example: $2b$10$MbpWOpcjEjF.56HJXUcyQ.K/GBQjdAiFKxlHFfjr2clGxVwoLoOXe
+//  *                     role_id:
+//  *                       type: integer
+//  *                       example: 1
+//  *                     is_deleted:
+//  *                       type: boolean
+//  *                       example: false
+//  *                     created_at:
+//  *                       type: string
+//  *                       format: date-time
+//  *                       example: 2025-08-05T12:18:49.000Z
+//  *                     created_by:
+//  *                       type: string
+//  *                       nullable: true
+//  *                       example: null
+//  *                     updated_at:
+//  *                       type: string
+//  *                       format: date-time
+//  *                       example: 2025-08-05T12:18:49.000Z
+//  *                     updated_by:
+//  *                       type: string
+//  *                       nullable: true
+//  *                       example: null
+//  *       400:
+//  *         description: Bad Request - User already exists
+//  *         content:
+//  *           application/json:
+//  *             schema:
+//  *               type: object
+//  *               properties:
+//  *                 success:
+//  *                   type: boolean
+//  *                   example: false
+//  *                 statusCode:
+//  *                   type: integer
+//  *                   example: 400
+//  *                 message:
+//  *                   type: string
+//  *                   example: User already exists
+//  *                 data:
+//  *                   type: array
+//  *                   example: []
+//  */
+// router.post('/',validater(userValidationSchema.createAndUpdateUser), createAndUpdateUserHandler);
 
 /**
  * @swagger
@@ -291,7 +292,7 @@ router.post('/',validater(userValidationSchema.createAndUpdateUser), createAndUp
  *                   type: array
  *                   example: []
  */
-router.put('/:id', validater(userValidationSchema.createAndUpdateUser), createAndUpdateUserHandler );
+router.put('/:id',auth, validater(userValidationSchema.createAndUpdateUser), createAndUpdateUserHandler );
 
 /**
  * @swagger
@@ -346,6 +347,6 @@ router.put('/:id', validater(userValidationSchema.createAndUpdateUser), createAn
  *                   type: array
  *                   example: []
  */
-router.delete('/:id',validater(userValidationSchema.deleteUser), deleteUserHandler);
+router.delete('/:id',auth,validater(userValidationSchema.deleteUser), deleteUserHandler);
 
 module.exports = router;    
