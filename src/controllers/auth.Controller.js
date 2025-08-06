@@ -1,9 +1,9 @@
-const { StatusCodes } = require('http-status-codes');
 const { sendResponse } = require('../common/helper');
 const bcryptjs = require('bcryptjs');
 const knex = require('../config/db');
 const jwt = require('jsonwebtoken');
 const UAParser = require('ua-parser-js');
+const statuscode = require("../common/statuscode");
 require('dotenv').config();
 
 const otpRequestHandler = async (req, res) => {
@@ -23,7 +23,7 @@ const otpRequestHandler = async (req, res) => {
       return sendResponse({
         res,
         success: false,
-        statusCode: StatusCodes.NOT_FOUND,
+        statusCode: statuscode.R_NOT_FOUND ,
         message: 'User not found',
       });
     }
@@ -33,7 +33,7 @@ const otpRequestHandler = async (req, res) => {
       return sendResponse({
         res,
         success: false,
-        statusCode: StatusCodes.BAD_REQUEST,
+        statusCode: statuscode.R_BAD_REQUEST,
         message: 'Invalid credentials',
       });
     }
@@ -59,7 +59,7 @@ const otpRequestHandler = async (req, res) => {
     return sendResponse({
       res,
       success: false,
-      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      statusCode: statuscode.R_INTERNAL_SERVER_ERROR,
       message: 'Something went wrong',
     });
   }
@@ -85,7 +85,7 @@ const loginHandler = async (req, res) => {
       return sendResponse({
         res,
         success: false,
-        statusCode: StatusCodes.NOT_FOUND,
+        statusCode: statuscode.R_NOT_FOUND ,
         message: 'User not found',
       });
     }
@@ -100,7 +100,7 @@ const loginHandler = async (req, res) => {
       return sendResponse({
         res,
         success: false,
-        statusCode: StatusCodes.BAD_REQUEST,
+        statusCode: statuscode.R_BAD_REQUEST,
         message: 'Invalid or expired OTP',
       });
     }
@@ -131,7 +131,7 @@ const loginHandler = async (req, res) => {
     return sendResponse({
       res,
       success: true,
-      statusCode: StatusCodes.OK,
+      statusCode: statuscode.R_SUCCESS,
       message: 'User logged in successfully',
       data: {
         accessToken,
@@ -143,7 +143,7 @@ const loginHandler = async (req, res) => {
     return sendResponse({
       res,
       success: false,
-      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      statusCode: statuscode.R_INTERNAL_SERVER_ERROR,
       message: 'Something went wrong',
     });
   }
@@ -158,7 +158,7 @@ const registerHandler = async (req, res) => {
       return sendResponse({
         res,
         success: false,
-        statusCode: StatusCodes.BAD_REQUEST,
+        statusCode: statuscode.R_BAD_REQUEST,
         message: 'User already exists',
       });
     }
@@ -176,7 +176,7 @@ const registerHandler = async (req, res) => {
       return sendResponse({
         res,
         success: false,
-        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+        statusCode: statuscode.R_INTERNAL_SERVER_ERROR,
         message: 'Something went wrong',
       });
     }
@@ -186,7 +186,7 @@ const registerHandler = async (req, res) => {
     return sendResponse({
       res,
       success: true,
-      statusCode: StatusCodes.OK,
+      statusCode: statuscode.R_SUCCESS,
       message: 'User registed successfully',
       data: user,
     });
@@ -195,7 +195,7 @@ const registerHandler = async (req, res) => {
     return sendResponse({
       res,
       success: false,
-      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      statusCode: statuscode.R_INTERNAL_SERVER_ERROR,
       message: 'Something went wrong',
     });
   }

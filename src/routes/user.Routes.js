@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUserHandler, getAllUsersHandler, updateUserHandler, deleteUserHandler} = require('../controllers/user.controller');
+const { createAndUpdateUserHandler  , getAllUsersHandler, deleteUserHandler} = require('../controllers/user.controller');
 const { validater } = require("../common/helper");
 const {userValidationSchema} = require("../validation/user.Validation")
 
@@ -177,7 +177,7 @@ router.get('/', getAllUsersHandler);
  *                   type: array
  *                   example: []
  */
-router.post('/',validater(userValidationSchema.createUser), createUserHandler);
+router.post('/',validater(userValidationSchema.createAndUpdateUser), createAndUpdateUserHandler);
 
 /**
  * @swagger
@@ -291,7 +291,7 @@ router.post('/',validater(userValidationSchema.createUser), createUserHandler);
  *                   type: array
  *                   example: []
  */
-router.put('/:id', validater(userValidationSchema.updateUser), updateUserHandler);
+router.put('/:id', validater(userValidationSchema.createAndUpdateUser), createAndUpdateUserHandler );
 
 /**
  * @swagger

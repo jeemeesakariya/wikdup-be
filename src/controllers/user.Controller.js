@@ -1,5 +1,5 @@
 const { sendResponse } = require('../common/helper');
-const { StatusCodes } = require('http-status-codes');
+const statuscode = require('../common/statuscode');
 const bcryptjs = require('bcryptjs');
 const knex = require('../config/db');
 
@@ -25,7 +25,7 @@ const getAllUsersHandler = async (req, res) => {
       return sendResponse({
         res,
         success: false,
-        statusCode: StatusCodes.NOT_FOUND,
+        statusCode: statuscode.R_NOT_FOUND,
         message: 'Users not found',
       });
     }
@@ -33,7 +33,7 @@ const getAllUsersHandler = async (req, res) => {
     return sendResponse({
       res,
       success: true,
-      statusCode: StatusCodes.OK,
+      statusCode:statuscode.R_SUCCESS,
       message: 'Users fetched successfully',
       data: users,
     });
@@ -42,7 +42,7 @@ const getAllUsersHandler = async (req, res) => {
     return sendResponse({
       res,
       success: false,
-      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      statusCode: statuscode.R_INTERNAL_SERVER_ERROR,
       message: 'Something went wrong',
     });
   }
@@ -51,12 +51,32 @@ const createUserHandler = async (req, res) => {
   try {
     const { full_name, mobile, email, password, role_id } = req.body;
 
+    // roleid validation
+    if (!role_id) {
+      return sendResponse({
+        res,
+        success: false,
+        statusCode: statuscode.R_NOT_FOUND,
+        message: 'Role ID is required',
+      });
+    }
+
+    // password validation
+    if (!password) {
+      return sendResponse({
+        res,
+        success: false,
+        statusCode: statuscode.R_NOT_FOUND,
+        message: 'Password is required',
+      });
+    }
+
     const isExists = await knex('user_master_data').where({ email }).orWhere({ mobile }).first();
     if (isExists) {
       return sendResponse({
         res,
         success: false,
-        statusCode: StatusCodes.BAD_REQUEST,
+        statusCode: statuscode.R_DATA_EXISTS,
         message: 'User already exists',
       });
     }
@@ -66,7 +86,7 @@ const createUserHandler = async (req, res) => {
       return sendResponse({
         res,
         success: false,
-        statusCode: StatusCodes.NOT_FOUND,
+        statusCode: statuscode.R_NOT_FOUND,
         message: 'Role not found',
       });
     }
@@ -85,17 +105,30 @@ const createUserHandler = async (req, res) => {
       return sendResponse({
         res,
         success: false,
-        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+        statusCode: statuscode.R_INTERNAL_SERVER_ERROR,
         message: 'Something went wrong',
       });
     }
 
-    const user = await knex('user_master_data').where({ id }).first();
+    const user = await knex('user_master_data')
+      .where({ id })
+      .select(
+        'id',
+        'full_name',
+        'mobile',
+        'email',
+        'role_id',
+        'created_at',
+        'updated_at',
+        'created_by',
+        'updated_by'
+      )
+      .first();
 
     return sendResponse({
       res,
       success: true,
-      statusCode: StatusCodes.OK,
+      statusCode:statuscode.R_SUCCESS,
       message: 'User created successfully',
       data: user,
     });
@@ -104,14 +137,17 @@ const createUserHandler = async (req, res) => {
     return sendResponse({
       res,
       success: false,
-      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      statusCode: statuscode.R_INTERNAL_SERVER_ERROR,
       message: err.message,
     });
   }
 };
-const updateUserHandler = async (req, res) => {
+const createAndUpdateUserHandler = async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (id == 0) return createUserHandler(req, res);
+
     const { full_name, mobile, email } = req.body;
 
     const isExists = await knex('user_master_data').where({ id }).first();
@@ -119,8 +155,25 @@ const updateUserHandler = async (req, res) => {
       return sendResponse({
         res,
         success: false,
-        statusCode: StatusCodes.NOT_FOUND,
+        statusCode: statuscode.R_NOT_FOUND,
         message: 'User not found',
+      });
+    }
+
+    // check mobile or email alredy exxest or not
+    const isDuplicate = await knex('user_master_data')
+      .where((builder) => {
+        builder.where('email', email).orWhere('mobile', mobile);
+      })
+      .andWhere('id', '!=', id)
+      .first();
+
+    if (isDuplicate) {
+      return sendResponse({
+        res,
+        success: false,
+        statusCode: statuscode.R_DATA_EXISTS,
+        message: 'Duplicate mobile or email found',
       });
     }
 
@@ -130,12 +183,25 @@ const updateUserHandler = async (req, res) => {
       email,
     });
 
-    const newUser = await knex('user_master_data').where({ id }).first();
+    const newUser = await knex('user_master_data')
+      .where({ id })
+      .select(
+        'id',
+        'full_name',
+        'mobile',
+        'email',
+        'role_id',
+        'created_at',
+        'updated_at',
+        'created_by',
+        'updated_by'
+      )
+      .first();
 
     return sendResponse({
       res,
       success: true,
-      statusCode: StatusCodes.OK,
+      statusCode: statuscode.R_SUCCESS,
       message: 'User updated successfully',
       data: newUser,
     });
@@ -144,7 +210,7 @@ const updateUserHandler = async (req, res) => {
     return sendResponse({
       res,
       success: false,
-      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      statusCode: statuscode.R_INTERNAL_SERVER_ERROR,
       message: err.message,
     });
   }
@@ -158,7 +224,7 @@ const deleteUserHandler = async (req, res) => {
       return sendResponse({
         res,
         success: false,
-        statusCode: StatusCodes.NOT_FOUND,
+        statusCode: statuscode.R_NOT_FOUND,
         message: 'User not found',
       });
     }
@@ -168,7 +234,7 @@ const deleteUserHandler = async (req, res) => {
     return sendResponse({
       res,
       success: true,
-      statusCode: StatusCodes.OK,
+      statusCode: statuscode.R_SUCCESS,
       message: 'User deleted successfully',
     });
   } catch (err) {
@@ -176,7 +242,7 @@ const deleteUserHandler = async (req, res) => {
     return sendResponse({
       res,
       success: false,
-      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      statusCode: statuscode.R_INTERNAL_SERVER_ERROR,
       message: err.message,
     });
   }
@@ -184,7 +250,6 @@ const deleteUserHandler = async (req, res) => {
 
 module.exports = {
   getAllUsersHandler,
-  createUserHandler,
-  updateUserHandler,
+  createAndUpdateUserHandler,
   deleteUserHandler,
 };
