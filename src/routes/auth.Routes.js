@@ -1,9 +1,16 @@
 const express = require('express');
-const { loginHandler, registerHandler } = require('../controllers/auth.controller');
+const {
+  loginHandler,
+  registerHandler,
+  otpRequestHandler,
+} = require('../controllers/auth.controller');
+const { validater } = require('../common/helper');
+const { authSchema } = require('../validation/auth.Validation');
 
 const router = express.Router();
 
-router.post('/login',loginHandler);
-router.post('/register',registerHandler);
+router.post('/request-otp', validater(authSchema.requestOtp), otpRequestHandler);
+router.post('/login', validater(authSchema.login), loginHandler);
+router.post('/register', registerHandler);
 
-module.exports = router;    
+module.exports = router;

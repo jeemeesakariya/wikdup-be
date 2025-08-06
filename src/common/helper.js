@@ -2,7 +2,7 @@
 const { StatusCodes } = require('http-status-codes');
 
 const sendResponse = ({ res, success, statusCode, message, data = [] }) => {
-  return res.status(statusCode).json({
+  return res.status(StatusCodes.OK).json({
     success,
     statusCode,
     message,

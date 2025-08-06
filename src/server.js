@@ -18,6 +18,7 @@ app.use(morgan('dev'));
 app.use("/api/v1", mainRoute);
 
 app.use("/", (req, res) => {
+    console.log(req.headers['x-forwarded-for'] || req.socket.remoteAddress, "ip"); //req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress
     return sendResponse({
         res,
         success: false,

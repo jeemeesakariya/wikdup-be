@@ -1,0 +1,11 @@
+module.exports = {
+    R_SUCCESS : 0,
+    R_DB_ERROR : 1,
+    R_NOT_FOUND : 2,
+    R_AUTHENTICATION_FAILED : 3,
+    R_DUPLICATE_DATA : 4,
+    R_UNAUTHORIZED : 5,
+    R_CREATED : 6,
+    R_INVALID_VALUE: 7,
+    R_BAD_REQUEST: 10
+}
