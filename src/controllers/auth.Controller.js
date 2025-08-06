@@ -108,7 +108,7 @@ const loginHandler = async (req, res) => {
     await knex('otps').where({ id: otpRecord.id }).update({ used: 1 });
 
     const accessToken = jwt.sign({ id: user.id, role: user.role_id }, process.env.JWT_SECRET, {
-      expiresIn: '15m',
+      expiresIn: '24h',
     });
 
     const refreshToken = jwt.sign(

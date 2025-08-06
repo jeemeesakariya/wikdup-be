@@ -49,7 +49,8 @@ const getAllUsersHandler = async (req, res) => {
 };
 const createUserHandler = async (req, res) => {
   try {
-    const { full_name, mobile, email, password, role_id } = req.body;
+    const loginUser= req.user; // fallback to 1 if not available
+    const { full_name, mobile, email, password, role_id,  } = req.body;
 
     // roleid validation
     if (!role_id) {
@@ -99,6 +100,7 @@ const createUserHandler = async (req, res) => {
       email,
       password: hasePw,
       role_id,
+      created_by: loginUser?.id,
     });
 
     if (!id) {
@@ -145,7 +147,7 @@ const createUserHandler = async (req, res) => {
 const createAndUpdateUserHandler = async (req, res) => {
   try {
     const { id } = req.params;
-
+    const loginUser = req.user; // fallback to 1 if not available
     if (id == 0) return createUserHandler(req, res);
 
     const { full_name, mobile, email } = req.body;
@@ -181,6 +183,7 @@ const createAndUpdateUserHandler = async (req, res) => {
       full_name,
       mobile,
       email,
+      updated_by: loginUser?.id,
     });
 
     const newUser = await knex('user_master_data')
