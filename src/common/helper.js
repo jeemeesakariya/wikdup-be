@@ -2,6 +2,7 @@ const statuscode = require('./statuscode');
 require('dotenv').config();
 const knex = require('../config/db');
 const jwt = require('jsonwebtoken');
+const { allow } = require('joi');
 
 const sendResponse = ({ res, success, statusCode, message, data = [] }) => {
   return res.status(200).json({
@@ -16,7 +17,6 @@ const validater = (schema) => {
   return (req, res, next) => {
     const sources = ['body', 'query', 'params'];
     const errors = [];
-
     for (const source of sources) {
       if (schema[source]) {
         const { error } = schema[source].validate(req[source], { abortEarly: false });
@@ -42,7 +42,6 @@ const validater = (schema) => {
 const auth = async (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
-    console.log(token);
     if (!token) {
       return sendResponse({
         res,
@@ -74,7 +73,7 @@ const auth = async (req, res, next) => {
         res,
         success: false,
         statusCode: statuscode.R_UNAUTHORIZED,
-        message: 'User not found',
+        message: 'Wrong token provided',
       });
     }
 
@@ -95,8 +94,25 @@ const auth = async (req, res, next) => {
   }
 };
 
+const hasePermission = (...allowedRole) => {
+  return async (req, res, next) => {
+    const role = await knex('roles').where({ id: req.user.role }).first();
+
+    if (!allowedRole.includes(role.role_name)) {
+      return sendResponse({
+        res,
+        success: false,
+        statusCode: statuscode.R_UNAUTHORIZED,
+        message: 'you are not eligibal for this route',
+      });
+    }
+    next();
+  };
+};
+
 module.exports = {
   auth,
+  hasePermission,
   sendResponse,
   validater,
 };

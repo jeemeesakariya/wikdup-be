@@ -3,7 +3,7 @@ const bcryptjs = require('bcryptjs');
 const knex = require('../config/db');
 const jwt = require('jsonwebtoken');
 const UAParser = require('ua-parser-js');
-const statuscode = require("../common/statuscode");
+const statuscode = require('../common/statuscode');
 require('dotenv').config();
 
 const otpRequestHandler = async (req, res) => {
@@ -23,7 +23,7 @@ const otpRequestHandler = async (req, res) => {
       return sendResponse({
         res,
         success: false,
-        statusCode: statuscode.R_NOT_FOUND ,
+        statusCode: statuscode.R_NOT_FOUND,
         message: 'User not found',
       });
     }
@@ -85,7 +85,7 @@ const loginHandler = async (req, res) => {
       return sendResponse({
         res,
         success: false,
-        statusCode: statuscode.R_NOT_FOUND ,
+        statusCode: statuscode.R_NOT_FOUND,
         message: 'User not found',
       });
     }
@@ -152,7 +152,10 @@ const loginHandler = async (req, res) => {
 const registerHandler = async (req, res) => {
   try {
     const { full_name, mobile, email, password } = req.body;
-
+    let role_id = 5;
+    if (req.body.role_id) {
+      role_id = req.body.role_id;
+    }
     const isExists = await knex('user_master_data').where({ email }).orWhere({ mobile }).first();
     if (isExists) {
       return sendResponse({
@@ -170,6 +173,7 @@ const registerHandler = async (req, res) => {
       mobile,
       email,
       password: hasePw,
+      role_id,
     });
 
     if (!id) {

@@ -1,4 +1,6 @@
 const db = require("knex");
+const { attachPaginate } = require('knex-paginate');
+attachPaginate();
 
 const knex = db({
   client: 'mysql2',

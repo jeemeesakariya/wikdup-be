@@ -2,7 +2,7 @@ const express = require('express');
 const { createAndUpdateUserHandler  , getAllUsersHandler, deleteUserHandler} = require('../controllers/user.controller');
 const { validater } = require("../common/helper");
 const { userValidationSchema } = require("../validation/user.Validation")
-const {auth} =  require("../common/helper");
+const {auth, hasePermission} =  require("../common/helper");
 
 const router = express.Router();
 
@@ -65,7 +65,7 @@ const router = express.Router();
  *                   items:
  *                     $ref: '#/components/schemas/User'
  */
-router.get('/',auth, getAllUsersHandler);
+router.get('/',auth,hasePermission("Superadmin ", "Admin"), getAllUsersHandler);
 
 // /**
 //  * @swagger
@@ -292,7 +292,7 @@ router.get('/',auth, getAllUsersHandler);
  *                   type: array
  *                   example: []
  */
-router.put('/:id',auth, validater(userValidationSchema.createAndUpdateUser), createAndUpdateUserHandler );
+router.put('/:id',auth,hasePermission("Superadmin", "Admin"), validater(userValidationSchema.createAndUpdateUser), createAndUpdateUserHandler );
 
 /**
  * @swagger
@@ -347,6 +347,6 @@ router.put('/:id',auth, validater(userValidationSchema.createAndUpdateUser), cre
  *                   type: array
  *                   example: []
  */
-router.delete('/:id',auth,validater(userValidationSchema.deleteUser), deleteUserHandler);
+router.delete('/:id',auth, hasePermission("Superadmin", "Admin"), validater(userValidationSchema.deleteUser), deleteUserHandler);
 
 module.exports = router;    

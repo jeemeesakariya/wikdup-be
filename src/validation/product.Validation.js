@@ -125,18 +125,6 @@ const productSchema = {
                     'any.only': 'Approval status must be P (Pending), A (Approved), or R (Rejected).'
                 }),
 
-            approved_by: Joi.number().integer().positive().allow(null).optional()
-                .messages({
-                    'number.base': 'Approved by must be a number.',
-                    'number.integer': 'Approved by must be an integer.',
-                    'number.positive': 'Approved by must be a positive number.'
-                }),
-
-            is_deleted: Joi.boolean().optional()
-                .messages({
-                    'boolean.base': 'is_deleted must be a boolean value.'
-                }),
-
             images: Joi.array().items(
                 Joi.string().uri().max(500)
                     .messages({
