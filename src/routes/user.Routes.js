@@ -65,7 +65,7 @@ const router = express.Router();
  *                   items:
  *                     $ref: '#/components/schemas/User'
  */
-router.get('/',auth,hasePermission("Superadmin ", "Admin"), getAllUsersHandler);
+router.get('/',auth,hasePermission("Superadmin", "Admin"), getAllUsersHandler);
 
 // /**
 //  * @swagger

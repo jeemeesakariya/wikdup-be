@@ -10,8 +10,8 @@ const createProductController = async (req, res) => {
     if (req.body.packaging_type) {
       packaging_type = req.body.packaging_type;
     }
-    
-    const created_by = req.user?.id; 
+
+    const created_by = req.user?.id;
 
     // Validate SKU exists
     const skuExists = await trx('sku_master').where('id', sku_id).first();
@@ -99,7 +99,7 @@ const updateProductController = async (req, res) => {
 
   try {
     const productId = req.params.id;
-    const updated_by = req.user?.id;// Get user ID from auth
+    const updated_by = req.user?.id; // Get user ID from auth
 
     // Check if product exists
     const productExists = await trx('product_master')
@@ -125,7 +125,6 @@ const updateProductController = async (req, res) => {
       packaging_type,
       is_active,
       approved_by,
-      approval_status,
       images,
     } = req.body;
 
@@ -134,7 +133,10 @@ const updateProductController = async (req, res) => {
       updated_by,
       updated_at: knex.fn.now(),
     };
- 
+    console.log(req.user);
+
+    //
+
     if (sku_id !== undefined) {
       const skuExists = await trx('sku_master').where('id', sku_id).first();
       if (!skuExists) {
@@ -149,16 +151,29 @@ const updateProductController = async (req, res) => {
       updateData.sku_id = sku_id;
     }
 
+    let approval_status = "P";
+    if (req.body.approval_status) {
+      approval_status = req.body.approval_status;
+    }
+
     if (product_name !== undefined) updateData.product_name = product_name;
     if (mrp !== undefined) updateData.mrp = mrp;
     if (cost_price !== undefined) updateData.cost_price = cost_price;
     if (gst_percent !== undefined) updateData.gst_percent = gst_percent;
     if (packaging_type !== undefined) updateData.packaging_type = packaging_type;
-    if (is_active !== undefined) updateData.is_active = is_active;
-    if (approval_status !== undefined) updateData.approval_status = approval_status;
-
-
+    if (is_active !== undefined) updateData.is_active = req.user.id != 1 ? false : is_active;
+    if (approval_status !== undefined)
+      updateData.approval_status = req.user.role != 1 ? 'P' : approval_status;
+  
     if (approved_by !== undefined) {
+      if (req.user.role != 1) {
+        return sendResponse({
+          res,
+          success: false,
+          statusCode: statuscode.R_UNAUTHORIZED,
+          message: 'You are not authorized to approve this product',
+        });
+      }
       // Validate that the approver user exists if approved_by is being set
       if (approved_by !== null) {
         const approverExists = await trx('user_master_data')
@@ -306,8 +321,8 @@ const getPendingProductsController = async (req, res) => {
       .where('product_master.approval_status', 'P')
       .where('product_master.is_deleted', false)
       .orderBy('product_master.created_at', 'desc')
-      .paginate({perPage:limit, currentPage: offset, isLengthAware: true});
-    
+      .paginate({ perPage: limit, currentPage: offset, isLengthAware: true });
+
     // const pendingProducts = await knex('product_master')
     //   .select('product_master.*', 'sku_master.sku_code')
     //   .leftJoin('sku_master', 'product_master.sku_id', 'sku_master.id')
