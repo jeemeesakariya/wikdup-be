@@ -94,7 +94,7 @@ const auth = async (req, res, next) => {
   }
 };
 
-const hasePermission = (...allowedRole) => {
+const hasPermission = (...allowedRole) => {
   return async (req, res, next) => {
     const role = await knex('roles').where({ id: req.user.role }).first();
 
@@ -112,7 +112,7 @@ const hasePermission = (...allowedRole) => {
 
 module.exports = {
   auth,
-  hasePermission,
+  hasPermission,
   sendResponse,
   validater,
 };

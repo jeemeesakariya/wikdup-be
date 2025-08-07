@@ -1,8 +1,12 @@
 const express = require('express');
-const { createAndUpdateUserHandler  , getAllUsersHandler, deleteUserHandler} = require('../controllers/user.controller');
-const { validater } = require("../common/helper");
-const { userValidationSchema } = require("../validation/user.Validation")
-const {auth, hasePermission} =  require("../common/helper");
+const {
+  createAndUpdateUserHandler,
+  getAllUsersHandler,
+  deleteUserHandler,
+} = require('../controllers/user.controller');
+const { validater } = require('../common/helper');
+const { userValidationSchema } = require('../validation/user.Validation');
+const { auth, hasPermission } = require('../common/helper');
 
 const router = express.Router();
 
@@ -39,7 +43,6 @@ const router = express.Router();
  *           type: integer
  */
 
-
 /**
  * @swagger
  * /api/v1/user:
@@ -65,7 +68,7 @@ const router = express.Router();
  *                   items:
  *                     $ref: '#/components/schemas/User'
  */
-router.get('/',auth,hasePermission("Superadmin", "Admin"), getAllUsersHandler);
+router.get('/', auth, hasPermission('Superadmin', 'Admin'), getAllUsersHandler);
 
 // /**
 //  * @swagger
@@ -292,7 +295,13 @@ router.get('/',auth,hasePermission("Superadmin", "Admin"), getAllUsersHandler);
  *                   type: array
  *                   example: []
  */
-router.put('/:id',auth,hasePermission("Superadmin", "Admin"), validater(userValidationSchema.createAndUpdateUser), createAndUpdateUserHandler );
+router.put(
+  '/:id',
+  auth,
+  hasPermission('Superadmin', 'Admin'),
+  validater(userValidationSchema.createAndUpdateUser),
+  createAndUpdateUserHandler
+);
 
 /**
  * @swagger
@@ -347,6 +356,12 @@ router.put('/:id',auth,hasePermission("Superadmin", "Admin"), validater(userVali
  *                   type: array
  *                   example: []
  */
-router.delete('/:id',auth, hasePermission("Superadmin", "Admin"), validater(userValidationSchema.deleteUser), deleteUserHandler);
+router.delete(
+  '/:id',
+  auth,
+  hasPermission('Superadmin', 'Admin'),
+  validater(userValidationSchema.deleteUser),
+  deleteUserHandler
+);
 
-module.exports = router;    
+module.exports = router;

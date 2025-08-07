@@ -1,50 +1,54 @@
 const express = require('express');
-const { 
-  createProductController, 
-  updateProductController, 
+const {
+  createProductController,
+  updateProductController,
   deleteProductController,
   getPendingProductsController,
-  getActiveProductsController
+  getActiveProductsController,
 } = require('../controllers/product.Controller');
 const { validater } = require('../common/helper');
 const productSchema = require('../validation/product.Validation');
-const { auth, hasePermission } = require('../common/helper')
-
+const { auth, hasPermission } = require('../common/helper');
 
 const router = express.Router();
 
-router.post('/create', 
+router.post(
+  '/create',
   auth,
-  hasePermission("Superadmin", "Admin"),
-  validater(productSchema.createProduct), 
+  hasPermission('Superadmin', 'Admin'),
+  validater(productSchema.createProduct),
   createProductController
 );
 
-router.put('/update/:id', 
+router.put(
+  '/update/:id',
   auth,
-  hasePermission("Superadmin", "Admin"),
-  validater(productSchema.updateProduct), 
+  hasPermission('Superadmin', 'Admin'),
+  validater(productSchema.updateProduct),
   updateProductController
 );
 
-router.delete('/delete/:id', 
+router.delete(
+  '/delete/:id',
   auth,
-  hasePermission("Superadmin", "Admin"),
-  validater(productSchema.deleteProduct), 
+  hasPermission('Superadmin', 'Admin'),
+  validater(productSchema.deleteProduct),
   deleteProductController
 );
 
-router.get('/pending', 
+router.get(
+  '/pending',
   auth,
-  hasePermission("Superadmin", "Admin"),
-  validater(productSchema.getPendingProducts), 
+  hasPermission('Superadmin', 'Admin'),
+  validater(productSchema.getPendingProducts),
   getPendingProductsController
 );
 
-router.get('/list', 
+router.get(
+  '/list',
   auth,
-  hasePermission("Superadmin", "Admin"),
-  validater(productSchema.getActiveProducts), 
+  hasPermission('Superadmin', 'Admin'),
+  validater(productSchema.getActiveProducts),
   getActiveProductsController
 );
 
