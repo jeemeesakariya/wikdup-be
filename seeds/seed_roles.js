@@ -1,7 +1,7 @@
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> } 
- */
+ */github 
 exports.seed = async function (knex) {
   // await knex('roles').del();
   await knex('roles').insert([
