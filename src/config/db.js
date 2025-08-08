@@ -1,19 +1,13 @@
-const db = require("knex");
+const db = require('knex');
+const { development } = require('../../knexfile');
 const { attachPaginate } = require('knex-paginate');
 attachPaginate();
 
-const knex = db({
-  client: 'mysql2',
-  connection: {
-    host: '127.0.0.1',
-    user: 'root',
-    password: '',
-    database: 'wik_genesis',
-  }
-});
+const knex = db(development);
 
 // Test connection
-knex.raw('SELECT 1')
+knex
+  .raw('SELECT 1')
   .then(() => {
     console.log('✅ Database connected successfully!');
   })
