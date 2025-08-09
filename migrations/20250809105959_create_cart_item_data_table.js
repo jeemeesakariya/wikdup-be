@@ -8,7 +8,6 @@ exports.up = function (knex) {
     table.integer('user_id').unsigned().notNullable();
     table.integer('product_id').unsigned().notNullable();
     table.integer('quantity').notNullable();
-    table.decimal('price', 10, 2).notNullable();
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.timestamp('updated_at').defaultTo(knex.fn.now());
 

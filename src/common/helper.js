@@ -2,7 +2,6 @@ const statuscode = require('./statuscode');
 require('dotenv').config();
 const knex = require('../config/db');
 const jwt = require('jsonwebtoken');
-const { allow } = require('joi');
 
 const sendResponse = ({ res, success, statusCode, message, data = [] }) => {
   return res.status(200).json({

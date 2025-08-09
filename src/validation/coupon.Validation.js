@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const { param } = require('../routes/coupon.Routes');
 
 const couponSchema = {
   createCoupon: {
