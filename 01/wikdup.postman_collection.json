@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "69f9e0fb-498c-4e88-a894-2994684a5eee",
+		"_postman_id": "6689cc3e-18da-41f9-8e0d-8819e01b0d15",
 		"name": "wikdup",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "31505902"
+		"_exporter_id": "39506495",
+		"_collection_link": "https://wikdup.postman.co/workspace/wikdup-Workspace~68282c36-801e-4811-82bd-6265dd713a26/collection/39506495-6689cc3e-18da-41f9-8e0d-8819e01b0d15?action=share&source=collection_link&creator=39506495"
 	},
 	"item": [
 		{
@@ -84,7 +85,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n//   \"mobile\": \"9876543269\",\r\n  \"email\": \"jeemeesakariya19@example.com\",\r\n  \"otp\": \"623010\"\r\n}",
+							"raw": "{\r\n//   \"mobile\": \"9876543269\",\r\n  \"email\": \"jeemeesakariya19@example.com\",\r\n  \"otp\": \"956840\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -107,6 +108,31 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -296,7 +322,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6MSwiaWF0IjoxNzU0NTUyMDQ0LCJleHAiOjE3NTQ2Mzg0NDR9.jB8DIkrSQK4Z72V_ZIqkGYs1cezZBFZ8uBfXVly2_D4",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MSwiaWF0IjoxNzU0NzQ0NzA0LCJleHAiOjE3NTQ4MzExMDR9.ldPA4VJLA1E9iWx9I_nAcXOAQHMladblLmvOXGM0FlE",
 								"type": "text"
 							}
 						],
@@ -399,133 +425,24 @@
 			]
 		},
 		{
-			"name": "cart",
-			"item": [
-				{
-					"name": "getCart",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6MSwiaWF0IjoxNzU0NTY5Mzg1LCJleHAiOjE3NTQ2NTU3ODV9._rPNn8H8fVjXpP-4rB4t_MkVilXgrGAo7mhJIvdY5AU",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:9000/api/v1/cart?userId",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9000",
-							"path": [
-								"api",
-								"v1",
-								"cart"
-							],
-							"query": [
-								{
-									"key": "userId",
-									"value": null
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "createCart",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"user_id\":1\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:9000/api/v1/cart",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9000",
-							"path": [
-								"api",
-								"v1",
-								"cart"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteCart",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:9000/api/v1/cart/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9000",
-							"path": [
-								"api",
-								"v1",
-								"cart",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GetTotal",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:9000/api/v1/cart/total?cartId=1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9000",
-							"path": [
-								"api",
-								"v1",
-								"cart",
-								"total"
-							],
-							"query": [
-								{
-									"key": "cartId",
-									"value": "1"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "cartItems",
 			"item": [
 				{
 					"name": "getAllCartItems",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MSwiaWF0IjoxNzU0NzQ1OTczLCJleHAiOjE3NTQ4MzIzNzN9.yNX58xK1nvcEcVtELmsum9uOLufJCL5g_GDuqjzKhuE",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:9000/api/v1/cart/items?cartId=",
+							"raw": "http://localhost:9000/api/v1/cart/items?userId=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -539,8 +456,8 @@
 							],
 							"query": [
 								{
-									"key": "cartId",
-									"value": ""
+									"key": "userId",
+									"value": "1"
 								}
 							]
 						}
@@ -550,11 +467,20 @@
 				{
 					"name": "creatCartItems",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MSwiaWF0IjoxNzU0NzQ1OTczLCJleHAiOjE3NTQ4MzIzNzN9.yNX58xK1nvcEcVtELmsum9uOLufJCL5g_GDuqjzKhuE",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"cart_id\":\"\"\r\n}",
+							"raw": "{\r\n  \"user_id\": 1,\r\n  \"product_id\": 1,\r\n  \"quantity\": 3\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -581,8 +507,20 @@
 				{
 					"name": "updateCartItems",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"quantity\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "http://localhost:9000/api/v1/cart/items/:itemId",
 							"protocol": "http",
@@ -600,7 +538,7 @@
 							"variable": [
 								{
 									"key": "itemId",
-									"value": ""
+									"value": "3"
 								}
 							]
 						}
@@ -610,8 +548,17 @@
 				{
 					"name": "deleteCartItems",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6MSwiaWF0IjoxNzU0NzQ1OTczLCJleHAiOjE3NTQ4MzIzNzN9.yNX58xK1nvcEcVtELmsum9uOLufJCL5g_GDuqjzKhuE",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://localhost:9000/api/v1/cart/items/:itemId",
 							"protocol": "http",
@@ -629,7 +576,7 @@
 							"variable": [
 								{
 									"key": "itemId",
-									"value": ""
+									"value": "3"
 								}
 							]
 						}
@@ -801,7 +748,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "  {\r\n    \"user_id\": 1,\r\n    \"address_line1\": \"123 MG Road\",\r\n    \"address_line2\": \"Near City Mall\",\r\n    \"city\": \"Ahmedabad\",\r\n    \"state\": \"Gujarat\",\r\n    \"pincode\": \"380001\",\r\n    \"country\":\"abc\"\r\n  }",
+							"raw": "  {\r\n    \"user_id\": 1,\r\n    \"address_line1\": \"123 MG Road\",\r\n    \"address_line2\": \"Near City Mall\",\r\n    \"city\": \"Surat\",\r\n    \"state\": \"Gujarat\",\r\n    \"pincode\": \"380001\",\r\n    \"country\":\"abc\"\r\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -824,7 +771,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "9"
+									"value": "3"
 								}
 							]
 						}
@@ -858,7 +805,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "10"
+									"value": "2"
 								}
 							]
 						}
@@ -971,6 +918,28 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
