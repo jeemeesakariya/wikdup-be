@@ -1,10 +1,12 @@
 const express = require('express');
 const {
   createCoupon,
-  getCouponById,
+  getCoupons,
+  updateCoupon
 } = require('../controllers/coupon.Controllers');
 const { validater, auth, hasPermission } = require('../common/helper');
 const { couponSchema } = require('../validation/coupon.Validation');
+const { up } = require('../../migrations/20250809110610_create_coupon_master_table');
 
 const router = express.Router();
 
@@ -12,6 +14,7 @@ const router = express.Router();
 router.post('/', auth, hasPermission('Superadmin'), validater(couponSchema.createCoupon), createCoupon);
 
 // GET /coupons/:id - Get coupon by ID (Superadmin only)
-router.get('/:id', auth, hasPermission('Superadmin'), validater(couponSchema.getCouponById), getCouponById);
+router.get('/', auth, hasPermission('Superadmin'), validater(couponSchema.getCoupons), getCoupons);
+router.put('/:id', auth, hasPermission('Superadmin'), validater(couponSchema.updateCoupon), updateCoupon);
 
 module.exports = router;
