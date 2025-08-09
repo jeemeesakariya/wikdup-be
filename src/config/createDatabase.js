@@ -1,16 +1,12 @@
 const mysql = require('mysql2/promise');
 const { exec } = require('child_process');
 const path = require('path');
-
 const DB_NAME = 'wik_genesis';
+const { development } = require('../../knexfile');
 
 (async () => {
   try {
-    const connection = await mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-    });
+    const connection = await mysql.createConnection(development.connection);
 
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\`;`);
     console.log(`✅ Database '${DB_NAME}' is ready.`);
